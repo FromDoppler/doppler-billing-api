@@ -1,9 +1,15 @@
 version: 0.0.{build}
+branches:
+  only:
+  - master
+  - INT
+  - PRODTEST
+  - /v\d+\.\d+\.\d+.*/
 skip_branch_with_pr: true # It is to avoid double build for each PR
-skip_tags: true # It is because by the moment we do not know how to run steps conditionally
-# In the UI (https://ci.appveyor.com/project/makingsense-aspnet/doppler-billing-api/settings)
-# I marked "Do not build on "Push" events" to build only PRs by the moment
-# TODO: build branches and tags as we do with Jenkins
+skip_tags: false
+# branches filter would help to avoid creating build for undesired branches
+# /v\d+\.\d+\.\d+.*/ helps to detect tags when it is not in the same place that a branch head
+# but branches in accepted branches are always builded, so, we need to filter it in the build script
 image: Visual Studio 2017
 environment:
   TEST:
@@ -12,6 +18,28 @@ environment:
   DOCKER_WRITTER_PASSWORD:
     secure: CPdmv2DSokphYiqiE8eii4mz2v4exefw8SuWbRmgvStOFRsl0RkpdAfHgYnlci57
 build_script:
+# If APPVEYOR_REPO_TAG==true && APPVEYOR_REPO_TAG_NAME matches v\d+\.\d+\.\d+.*
+# - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --version="$env:APPVEYOR_REPO_TAG_NAME" --platform=windows
+
+# If APPVEYOR_REPO_TAG==false && APPVEYOR_PULL_REQUEST_HEAD_COMMIT=='' && APPVEYOR_REPO_BRANCH==master
+# - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --name=master --platform=windows
+
+# If APPVEYOR_REPO_TAG==false && APPVEYOR_PULL_REQUEST_HEAD_COMMIT=='' && APPVEYOR_REPO_BRANCH==INT
+# - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --name=INT --platform=windows
+
+# If APPVEYOR_REPO_TAG==false && APPVEYOR_PULL_REQUEST_HEAD_COMMIT=='' && APPVEYOR_REPO_BRANCH==PRODTEST
+# - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --name=PRODTEST --platform=windows
+
+# If APPVEYOR_REPO_TAG==false && APPVEYOR_PULL_REQUEST_HEAD_COMMIT<>'' && APPVEYOR_REPO_BRANCH==TEST-APPVEYOR
+# - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT" --name=pr-"$env:APPVEYOR_PULL_REQUEST_NUMBER" --platform=windows
+
+  - ps: echo "APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_COMMIT"
+  - ps: echo "APPVEYOR_REPO_BRANCH $env:APPVEYOR_REPO_BRANCH"
+  - ps: echo "APPVEYOR_REPO_TAG $env:APPVEYOR_REPO_TAG"
+  - ps: echo "APPVEYOR_REPO_TAG_NAME $env:APPVEYOR_REPO_TAG_NAME"
+  - ps: echo "APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH $env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH"
+  - ps: echo "APPVEYOR_PULL_REQUEST_HEAD_COMMIT $env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT"
+
   - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --name=pr-"$env:APPVEYOR_PULL_REQUEST_NUMBER" --platform=windows
 test: off
 deploy: off
