@@ -2,6 +2,7 @@ using Billing.API.Services.Invoice;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
+// TODO: move to the service collection namespace
 namespace Billing.API.Extensions
 {
     public static class InvoiceServiceCollectionExtensions

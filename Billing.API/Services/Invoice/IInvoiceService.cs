@@ -8,7 +8,7 @@ namespace Billing.API.Services.Invoice
     {
         Task<IEnumerable<InvoiceListItem>> GetInvoices(string clientPrefix, int clientId);
 
-        Task<byte[]?> GetInvoiceFile(string clientPrefix, int clientId, int fileId);
+        Task<byte[]> GetInvoiceFile(string clientPrefix, int clientId, int fileId);
 
         Task<string> TestSapConnection();
     }
