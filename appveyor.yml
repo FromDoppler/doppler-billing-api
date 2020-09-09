@@ -1,0 +1,17 @@
+version: 0.0.{build}
+skip_branch_with_pr: true # It is to avoid double build for each PR
+skip_tags: true # It is because by the moment we do not know how to run steps conditionally
+# In the UI (https://ci.appveyor.com/project/makingsense-aspnet/doppler-billing-api/settings)
+# I marked "Do not build on "Push" events" to build only PRs by the moment
+# TODO: build branches and tags as we do with Jenkins
+image: Visual Studio 2017
+environment:
+  TEST:
+    secure: sUrXRaSNWZJ154sh4iOCjg==
+  DOCKER_WRITTER_USERNAME: dnoyawritter
+  DOCKER_WRITTER_PASSWORD:
+    secure: CPdmv2DSokphYiqiE8eii4mz2v4exefw8SuWbRmgvStOFRsl0RkpdAfHgYnlci57
+build_script:
+  - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --name=pr-"$env:APPVEYOR_PULL_REQUEST_NUMBER" --platform=windows
+test: off
+deploy: off
