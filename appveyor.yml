@@ -20,6 +20,12 @@ for:
     skip_tags: true
     build_script:
       - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --name="$env:APPVEYOR_REPO_BRANCH" --platform=windows
+      # By the moment I set 'Do not build on "Pull request" events' in AppVeyor UI to avoid running this work in PRs
+      # TODO: try to determine how to build PRs with AppVeyor without affecting releases
+      # TODO: do not try to publish when DOCKER_WRITTER_PASSWORD is not defined (PRs from external forks)
+      # sh ./build-n-publish.sh --commit="$env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT" --name=pr-"$env:APPVEYOR_PULL_REQUEST_NUMBER" --platform=windows
+      # skip_branch_with_pr: true
+
   - branches:
       only:
         - /v\d+\.\d+\.\d+.*/
@@ -27,11 +33,3 @@ for:
     skip_tags: false
     build_script:
       - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_REPO_COMMIT" --version="$env:APPVEYOR_REPO_TAG_NAME" --platform=windows
-  - branches:
-      only:
-        - NOBRANCH
-    skip_tags: true
-    skip_branch_with_pr: true
-    build_script:
-      - ps: sh ./build-n-publish.sh --commit="$env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT" --name=pr-"$env:APPVEYOR_PULL_REQUEST_NUMBER" --platform=windows
-      # TODO: do not try to publish when DOCKER_WRITTER_PASSWORD is not defined (PRs from external forks)
