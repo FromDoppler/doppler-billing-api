@@ -101,6 +101,7 @@ namespace Billing.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("/testSap")]
         public async Task<IActionResult> TestSapConnection()
         {
@@ -110,6 +111,7 @@ namespace Billing.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("/testSapUs")]
         public async Task<IActionResult> TestSapUsConnection()
         {
