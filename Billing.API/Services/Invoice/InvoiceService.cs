@@ -90,7 +90,7 @@ namespace Billing.API.Services.Invoice
 
                     var schema = _sapServiceSettingsService.GetSapSchema("AR");
 
-                    var query = $"select * from {schema}.oeml";
+                    var query = $"select TOP 1 * from {schema}.oeml";
 
                     var da = new HanaDataAdapter(query, conn);
 
@@ -122,7 +122,7 @@ namespace Billing.API.Services.Invoice
 
                     var schema = _sapServiceSettingsService.GetSapSchema("US");
 
-                    var query = $"select * from {schema}.oeml";
+                    var query = $"select TOP 1 * from {schema}.oeml";
 
                     var da = new HanaDataAdapter(query, conn);
 
