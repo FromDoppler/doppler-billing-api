@@ -328,7 +328,7 @@ namespace Billing.API.Test
             var authenticateHeader = Assert.Single(response.Headers.WwwAuthenticate);
             Assert.Equal("Bearer", authenticateHeader.Scheme);
             Assert.Contains("error=\"invalid_token\"", authenticateHeader.Parameter);
-            Assert.Contains("error_description=\"The token is expired", authenticateHeader.Parameter);
+            Assert.Contains("error_description=\"The token expired", authenticateHeader.Parameter);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 

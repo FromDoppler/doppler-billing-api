@@ -43,7 +43,12 @@ namespace Billing.API
 
             app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
