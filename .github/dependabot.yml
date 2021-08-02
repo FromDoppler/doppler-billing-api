@@ -29,11 +29,13 @@ updates:
           - 5.0.2
           - 5.0.3
           - 5.0.4
+          - 5.0.8
       - dependency-name: Microsoft.AspNetCore.Mvc.Testing
         versions:
           - 5.0.2
           - 5.0.3
           - 5.0.4
+          - 5.0.8
       - dependency-name: Microsoft.NET.Test.Sdk
         versions:
           - 16.8.3
@@ -59,11 +61,13 @@ updates:
           - 3.1.405.pre.buster
           - 3.1.406.pre.buster
           - 3.1.407.pre.buster
+          - 3.1.411
       - dependency-name: dotnet/core/aspnet
         versions:
           - 3.1.11.pre.buster.pre.slim
           - 3.1.12.pre.buster.pre.slim
           - 3.1.13.pre.buster.pre.slim
+          - 3.1.17
       - dependency-name: node
         versions:
           - "15"
