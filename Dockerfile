@@ -16,7 +16,7 @@ FROM build AS publish
 RUN dotnet publish "Billing.API/Billing.API.csproj" -c Release -o /app/publish
 
 # When it is running in a W2016 host, it uses mcr.microsoft.com/dotnet/core/aspnet:2.1.8-nanoserver-sac2016
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1.8 AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.18 AS final
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
