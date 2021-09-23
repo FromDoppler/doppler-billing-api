@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Billing.API.Models;
 using Microsoft.Extensions.Logging;
@@ -17,12 +18,17 @@ namespace Billing.API.Services.Invoice
         private readonly ILogger<InvoiceService> _logger;
         private readonly IOptions<InvoiceProviderOptions> _options;
         private readonly ISapServiceSettingsService _sapServiceSettingsService;
+        private readonly ISapApiService _sapApiService;
 
-        public InvoiceService(ILogger<InvoiceService> logger, IOptions<InvoiceProviderOptions> options, ISapServiceSettingsService sapServiceSettingsService)
+        public InvoiceService(ILogger<InvoiceService> logger,
+            IOptions<InvoiceProviderOptions> options,
+            ISapServiceSettingsService sapServiceSettingsService,
+            ISapApiService sapApiService)
         {
             _logger  = logger;
             _options = options;
             _sapServiceSettingsService = sapServiceSettingsService;
+            _sapApiService = sapApiService;
         }
 
         public async Task<PaginatedResult<InvoiceListItem>> GetInvoices(string clientPrefix, int clientId, int page, int pageSize, string sortColumn, bool sortAsc)
@@ -74,9 +80,9 @@ namespace Billing.API.Services.Invoice
             if (dr == null)
                 return null;
 
-            var link = $"{dr.Field<string>("trgtPath")}\\{dr.Field<string>("FileName")}.{dr.Field<string>("FileExt")}";
+            var response = await _sapApiService.GetAttachmentPdf(dr.Field<int>("AbsEntry"), dr.Field<string>("FileName") , dr.Field<string>("FileExt"), sapSystem);
 
-            return await File.ReadAllBytesAsync(link);
+            return await response.Content.ReadAsByteArrayAsync();
         }
 
         public async Task<string> TestSapConnection()

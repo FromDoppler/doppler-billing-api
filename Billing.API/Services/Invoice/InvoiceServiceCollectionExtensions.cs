@@ -1,3 +1,4 @@
+using Billing.API.Services;
 using Billing.API.Services.Invoice;
 using Microsoft.Extensions.Options;
 
@@ -12,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<DummyInvoiceService>();
             services.AddTransient<InvoiceService>();
             services.AddTransient<ISapServiceSettingsService, SapServiceSettingsService>();
+            services.AddTransient<ISapApiService, SapApiService>();
 
             services.AddTransient(serviceProvider =>
             {
