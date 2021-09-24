@@ -65,14 +65,6 @@ namespace Billing.API.Test
 
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true",
-                    ["Invoice:Host"] = "localhost",
-                    ["Invoice:UserName"] = "someUser",
-                    ["Invoice:Password"] = "somePass"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost/accounts/doppler/{clientId}/invoices");
@@ -92,11 +84,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/accounts/doppler/1/invoices");
@@ -117,11 +104,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://custom.domain.com/accounts/doppler/1/invoices?sortColumn=Product");
@@ -154,11 +136,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://custom.domain.com/accounts/doppler/1/invoices?sortColumn=Product&sortAsc=false");
@@ -191,11 +168,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://custom.domain.com/accounts/doppler/1/invoices?pageSize=2");
@@ -221,11 +193,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://custom.domain.com/accounts/doppler/1/invoices?page=2&sortColumn=Product&sortAsc=true");
@@ -258,11 +225,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/accounts/doppler/1/invoices");
@@ -353,11 +315,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/{path}");
@@ -380,11 +337,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/{path}");
@@ -408,11 +360,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/{path}");
@@ -431,11 +378,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/accounts/invalid_origin/1/invoices/filename.ext?s=123456");
@@ -457,11 +399,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/accounts/doppler/0/invoices/invoice_2020-01-01_123.pdf?s=123456");
@@ -482,11 +419,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"https://custom.domain.com/accounts/doppler/1/invoices/whatever.ext");
@@ -506,11 +438,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithBypassAuthorization())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://custom.domain.com/accounts/doppler/1/invoices?page=2&sortColumn=Product&sortAsc=true");
@@ -534,11 +461,6 @@ namespace Billing.API.Test
             // Arrange
             using (var appFactory = _factory.WithDisabledLifeTimeValidation())
             {
-                appFactory.AddConfiguration(new Dictionary<string, string>
-                {
-                    ["Invoice:UseDummyData"] = "true"
-                });
-
                 var client = appFactory.CreateClient();
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"accounts/doppler/1/invoices/invoice_MX_2020-01-01_123.pdf?_s=792naTFnk0doxkAi3G4Dt2ITSQttLcf6OypamgK123");
