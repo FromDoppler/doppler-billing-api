@@ -1,9 +1,11 @@
 using Billing.API.DopplerSecurity;
+using Billing.API.Services.SapApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace Billing.API
 {
@@ -18,7 +20,14 @@ namespace Billing.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SapConfig>(Configuration.GetSection(nameof(SapConfig)));
             services.AddDopplerSecurity();
+            services.AddHttpClient("", c => { })
+                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                    UseCookies = false
+                });
             services.AddInvoiceService();
 
             services.AddTransient<CryptoHelper>();
