@@ -1,3 +1,5 @@
+using Billing.API.Models;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -5,6 +7,12 @@ namespace Billing.API.Services
 {
     public interface ISapApiService
     {
-        Task<HttpResponseMessage> GetAttachmentPdf(int absEntry, string fileName, string fileExt, string sapSystem);
+        Task<HttpResponseMessage> GetAttachmentPdf(int fileId, string date, string documentType, string sapSystem);
+
+        Task<IList<DocumentItem>> GetInvoices(string documentType, string clientPrefix, int clientId, string sapSystem, int? fileId = null);
+
+        Task<HttpResponseMessage> TestSapUsConnection();
+
+        Task<HttpResponseMessage> TestSapConnection();
     }
 }

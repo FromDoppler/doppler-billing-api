@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Billing.API.Services.SapApi
 {
     public class SapServiceConfig
@@ -11,5 +6,7 @@ namespace Billing.API.Services.SapApi
         public string CompanyDB { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string InvoiceFileNamePrefix { get; set; }
+        public string CreditNoteFileNamePrefix { get; set; }
     }
 }
