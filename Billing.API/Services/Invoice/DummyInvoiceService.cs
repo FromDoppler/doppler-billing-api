@@ -31,7 +31,7 @@ namespace Billing.API.Services.Invoice
             return await Task.FromResult(invoices);
         }
 
-        public Task<byte[]> GetInvoiceFile(string clientPrefix, int clientId, string sapSystem, int fileId)
+        public Task<byte[]> GetInvoiceFile(string clientPrefix, int clientId, string sapSystem, int fileId, string date, string documentType)
         {
             var bytes = File.ReadAllBytes("sample.pdf");
 

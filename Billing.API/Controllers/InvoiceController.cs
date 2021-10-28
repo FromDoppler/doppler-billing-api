@@ -14,7 +14,7 @@ namespace Billing.API.Controllers
     [ApiController]
     public class InvoiceController : ControllerBase
     {
-        private static readonly Regex InvoiceFilenameRegex = new Regex(@"^invoice_(([A-Z]{2})_)?\d{4}-\d{2}-\d{2}_(\d+)\.pdf$");
+        private static readonly Regex InvoiceFilenameRegex = new Regex(@"^invoice_(([A-Z]{2})_)?(([A-Z]{2})_)?(\d{4}-\d{2}-\d{2})_(\d+)\.pdf$");
 
         private readonly ILogger<InvoiceController> _logger;
         private readonly IInvoiceService _invoiceService;
@@ -82,12 +82,14 @@ namespace Billing.API.Controllers
                 if (!match.Success)
                     return BadRequest();
 
-                var fileId = match.Groups[3].Value.ToInt32();
+                var documentType = match.Groups[4].Value;
+                var fileId = match.Groups[6].Value.ToInt32();
+                var date = match.Groups[5].Value;
                 var sapSystem = !string.IsNullOrEmpty(match.Groups[2].Value) ? match.Groups[2].Value : _defaultSapSystem;
 
                 ValidateSapSystem(sapSystem);
 
-                var response = await _invoiceService.GetInvoiceFile(clientPrefix, clientId, sapSystem, fileId);
+                var response = await _invoiceService.GetInvoiceFile(clientPrefix, clientId, sapSystem, fileId, date, documentType);
 
                 if (response == null)
                     return NotFound();
