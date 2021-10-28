@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.1.504 AS restore
 WORKDIR /src
-COPY ./Billing.sln ./
-COPY Billing.API/Billing.API.csproj ./Billing.API/
-COPY Billing.API.Test/Billing.API.Test.csproj ./Billing.API.Test/
+COPY ./*.sln ./
+COPY */*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
 RUN dotnet restore
 
 FROM restore AS build
@@ -21,6 +21,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 COPY --from=publish /app/publish .
-COPY ./libadonetHDB.dll .
 COPY ./wwwroot_extras/ /app/wwwroot/
+ARG version=unknown
+RUN echo $version > /app/wwwroot/version.txt
 ENTRYPOINT ["dotnet", "Billing.API.dll"]
