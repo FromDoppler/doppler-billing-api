@@ -59,7 +59,7 @@ namespace Billing.API.Services
             var serviceSetting = SapServiceSettings.GetSettings(_sapConfig, sapSystem);
             var selectColumns = "$select=CardCode, CardName, DocObjectCode, DocEntry, DocNum, Letter, PointOfIssueCode, FolioNumberFrom, DocDate, DocDueDate, DocCurrency, DocTotal, PaidToDate";
             var filter = $"$filter=startswith(CardCode,'{clientPrefix}{clientId:00000000000}.') or startswith(CardCode,'{clientPrefix}{clientId:0000000000000}')";
-            var url = $"{serviceSetting.BaseServerUrl}{documentType}?{selectColumns}&{filter}";
+            var url = $"{serviceSetting.BaseServerUrl}{documentType}?{selectColumns}&{filter}&$inlinecount=allpages";
 
             var message = new HttpRequestMessage()
             {
@@ -76,9 +76,39 @@ namespace Billing.API.Services
             var result = response.Content.ReadAsStringAsync().Result;
             var documentsFromSap = JsonConvert.DeserializeObject<DocumentList>(result);
 
+            var hasMoreDocuments = !string.IsNullOrEmpty(documentsFromSap.nextLink);
+
+            var allDocuments = documentsFromSap.value;
+
+            while (hasMoreDocuments)
+            {
+                message = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri($"{serviceSetting.BaseServerUrl}/{documentsFromSap.nextLink}"),
+                    Method = HttpMethod.Get
+                };
+
+                message.Headers.Add("Cookie", cookies.B1Session);
+                message.Headers.Add("Cookie", cookies.RouteId);
+
+                client = _httpClientFactory.CreateClient();
+                response = await client.SendAsync(message);
+                result = response.Content.ReadAsStringAsync().Result;
+
+                documentsFromSap = JsonConvert.DeserializeObject<DocumentList>(result);
+
+                if (documentsFromSap.value.Count > 0)
+                {
+                    allDocuments.AddRange(JsonConvert.DeserializeObject<DocumentList>(result).value);
+                }
+
+                hasMoreDocuments = !string.IsNullOrEmpty(documentsFromSap.nextLink);
+            }
+
+
             var documents = new List<DocumentItem>();
 
-            foreach (DocumentItem document in documentsFromSap.value)
+            foreach (DocumentItem document in allDocuments)
             {
                 var hasSentDocument = await HasSentDocument(document.DocNum.ToInt32(), documentType == "Invoices" ? "FC" : "NC", document.DocDate, sapSystem);
                 if (hasSentDocument)
@@ -133,23 +163,36 @@ namespace Billing.API.Services
             var prefixFileName = documentType == "FC" ? serviceSetting.InvoiceFileNamePrefix : serviceSetting.CreditNoteFileNamePrefix;
 
             var cookies = await StartSession(sapSystem);
-            var patternFile = $"{prefixFileName}%25_{fileId}_{date.Split("-")[0]}";
-            var message = new HttpRequestMessage()
+
+            var prefixes = prefixFileName.Split(',');
+
+            foreach (var prefix in prefixes)
             {
-                RequestUri = new Uri($"{serviceSetting.BaseServerUrl}SQLQueries('Attachment')/List?docNum='{patternFile}_%25'"),
-                Method = HttpMethod.Get
-            };
 
-            message.Headers.Add("Cookie", cookies.B1Session);
-            message.Headers.Add("Cookie", cookies.RouteId);
+                var year = date.Split("-")[0];
+                var patternFile = $"{prefix}%25_{fileId}_{year.Substring(0, year.Length - 1)}";
+                var message = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri($"{serviceSetting.BaseServerUrl}SQLQueries('Attachment')/List?docNum='{patternFile}_%25'"),
+                    Method = HttpMethod.Get
+                };
 
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.SendAsync(message);
+                message.Headers.Add("Cookie", cookies.B1Session);
+                message.Headers.Add("Cookie", cookies.RouteId);
 
-            var result = response.Content.ReadAsStringAsync().Result;
-            var attachments = JsonConvert.DeserializeObject<AttachmentList>(result);
+                var client = _httpClientFactory.CreateClient();
+                var response = await client.SendAsync(message);
 
-            return attachments;
+                var result = response.Content.ReadAsStringAsync().Result;
+                var attachments = JsonConvert.DeserializeObject<AttachmentList>(result);
+
+                if (attachments.value.Count > 0)
+                {
+                    return JsonConvert.DeserializeObject<AttachmentList>(result);
+                }
+            }
+
+            return new AttachmentList { value = new List<AttachmentItem>() };
         }
 
         private AttachmentItem GetAttachmentItem(IList<AttachmentItem> attachments, int fileId)
