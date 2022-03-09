@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1.504 AS restore
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1.417 AS restore
 WORKDIR /src
 COPY ./*.sln ./
 COPY */*.csproj ./
