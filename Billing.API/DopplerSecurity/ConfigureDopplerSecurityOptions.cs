@@ -14,7 +14,7 @@ namespace Billing.API.DopplerSecurity
         private readonly IConfiguration _configuration;
         private readonly IFileProvider _fileProvider;
 
-        public ConfigureDopplerSecurityOptions(IConfiguration configuration, IHostingEnvironment webHostEnvironment)
+        public ConfigureDopplerSecurityOptions(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _configuration = configuration;
             _fileProvider = webHostEnvironment.ContentRootFileProvider;

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Billing.API.Models
 {
@@ -10,12 +10,9 @@ namespace Billing.API.Models
         public string DocumentNumber { get; }
         public string Product { get; }
         public string AccountId { get; }
-        [JsonConverter(typeof(IsoDateConverter))]
         public DateTimeOffset CreationDate { get; }
-        [JsonConverter(typeof(IsoDateConverter))]
         public DateTimeOffset DueDate { get; }
         [Obsolete("Use CreationDate or DueDate in place of this.")]
-        [JsonConverter(typeof(IsoDateConverter))]
         public DateTimeOffset Date { get; }
         public string Currency { get; }
         public double Amount { get; }
@@ -27,7 +24,7 @@ namespace Billing.API.Models
 
         public string Filename { get; }
 
-        [JsonProperty(PropertyName = "_links")]
+        [JsonPropertyName("_links")]
         public List<Link> Links { get; } = new List<Link>();
 
         public InvoiceListItem(string documentType, string documentNumber, string product, string accountId, DateTimeOffset creationDate, DateTimeOffset dueDate, DateTimeOffset date, string currency, double amount, double paidToDate, string filename, int fileId)

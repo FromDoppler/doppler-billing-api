@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
@@ -29,7 +30,7 @@ namespace Billing.API.DopplerSecurity
 
         private bool IsValidSignature(AuthorizationHandlerContext context)
         {
-            if (!(context.Resource is AuthorizationFilterContext resource))
+            if (!(context.Resource is HttpContext resource))
             {
                 _logger.LogWarning("Is not possible access to Resource information.");
                 return false;
@@ -43,7 +44,7 @@ namespace Billing.API.DopplerSecurity
                 return false;
             }
 
-            if (!signedPaths.Any(x => x.Value == resource.HttpContext.Request.Path))
+            if (!signedPaths.Any(x => x.Value == resource.Request.Path))
             {
                 _logger.LogDebug("Signed path does not match request's path.");
                 return false;

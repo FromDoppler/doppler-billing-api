@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.1.504 AS restore
+FROM mcr.microsoft.com/dotnet/sdk:6.0.102-bullseye-slim AS restore
 WORKDIR /src
 COPY ./*.sln ./
 COPY */*.csproj ./
@@ -16,7 +16,7 @@ FROM build AS publish
 RUN dotnet publish "Billing.API/Billing.API.csproj" -c Release -o /app/publish
 
 # When it is running in a W2016 host, it uses mcr.microsoft.com/dotnet/core/aspnet:2.1.8-nanoserver-sac2016
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1.8 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.2-bullseye-slim AS final
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
