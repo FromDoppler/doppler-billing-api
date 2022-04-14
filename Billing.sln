@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30428.66
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.API", "Billing.API\Billing.API.csproj", "{CB0CDD86-B40A-459C-9BE2-A634F7EA0BB7}"
 EndProject
@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		demo.http = demo.http
 		Dockerfile = Dockerfile
 		Dockerfile.verify = Dockerfile.verify
-		global.json = global.json
 		Jenkinsfile = Jenkinsfile
 		package.json = package.json
 		README.md = README.md

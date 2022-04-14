@@ -32,12 +32,11 @@ namespace Billing.API
 
             services.AddTransient<CryptoHelper>();
 
+            services.AddControllers();
             services.AddCors();
-            // TODO: configure JSON to indent the results
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //if (env.IsDevelopment())
             // Removed the condition IsDevelopment so the errors are thrown directly to the client
@@ -52,7 +51,14 @@ namespace Billing.API
 
             app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

@@ -2,12 +2,11 @@ using AutoFixture.Xunit2;
 using Billing.API.Models;
 using Flurl.Http.Testing;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -111,7 +110,7 @@ namespace Billing.API.Test
                 // Act
                 var response = await client.SendAsync(request);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<PaginatedResult<InvoiceListItem>>(content);
+                var result = JsonSerializer.Deserialize<PaginatedResult<InvoiceListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 // Assert
                 _httpTest.ShouldNotHaveMadeACall();
@@ -143,7 +142,7 @@ namespace Billing.API.Test
                 // Act
                 var response = await client.SendAsync(request);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<PaginatedResult<InvoiceListItem>>(content);
+                var result = JsonSerializer.Deserialize<PaginatedResult<InvoiceListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 // Assert
                 _httpTest.ShouldNotHaveMadeACall();
@@ -175,7 +174,7 @@ namespace Billing.API.Test
                 // Act
                 var response = await client.SendAsync(request);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<PaginatedResult<InvoiceListItem>>(content);
+                var result = JsonSerializer.Deserialize<PaginatedResult<InvoiceListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 // Assert
                 _httpTest.ShouldNotHaveMadeACall();
@@ -200,7 +199,7 @@ namespace Billing.API.Test
                 // Act
                 var response = await client.SendAsync(request);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<PaginatedResult<InvoiceListItem>>(content);
+                var result = JsonSerializer.Deserialize<PaginatedResult<InvoiceListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 // Assert
                 _httpTest.ShouldNotHaveMadeACall();
@@ -445,7 +444,7 @@ namespace Billing.API.Test
                 // Act
                 var response = await client.SendAsync(request);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<PaginatedResult<InvoiceListItem>>(content);
+                var result = JsonSerializer.Deserialize<PaginatedResult<InvoiceListItem>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 // Assert
                 _httpTest.ShouldNotHaveMadeACall();
