@@ -1,16 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Verify Format') {
-            steps {
-                sh 'docker build --target verify-format .'
-            }
-        }
-        stage('Verify .sh files') {
-            steps {
-                sh 'docker build --target verify-sh .'
-            }
-        }
         stage('Restore') {
             steps {
                 sh 'docker build --target restore .'
@@ -29,7 +19,7 @@ pipeline {
         stage('Publish in dopplerdock') {
             environment {
                 DOCKER_CREDENTIALS_ID = "dockerhub_dopplerdock"
-                DOCKER_IMAGE_NAME = "dopplerdock/doppler-billing-api"
+                DOCKER_IMAGE_NAME = "dopplerdock/doppler-billing-api${PACKAGE_SUFFIX}"
             }
             stages {
                 stage('Publish pre-release images from pull request') {
