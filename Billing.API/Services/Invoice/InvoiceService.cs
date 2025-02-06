@@ -80,6 +80,21 @@ namespace Billing.API.Services.Invoice
             return await response.Content.ReadAsByteArrayAsync();
         }
 
+        public async Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc)
+        {
+            var response = await GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate);
+
+            var responseSorted = GetDelinquentCustomersAndInvoicesSorted(response.AsQueryable(), sortColumn, sortAsc).ToList();
+            var paginatedData = responseSorted;
+
+            if ((page > 0) && (pageSize > 0))
+            {
+                paginatedData = responseSorted.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return new PaginatedResult<DelinquentCustomerAndInvoice> { Items = paginatedData, TotalItems = responseSorted.Count };
+        }
+
         public async Task<string> TestSapConnection()
         {
             var sapResponse = await _sapApiService.TestSapConnection();
@@ -128,6 +143,52 @@ namespace Billing.API.Services.Invoice
         private static IEnumerable<InvoiceListItem> GetInvoicesSorted(IQueryable<InvoiceListItem> invoices, string sortColumn, bool sortAsc)
         {
             return invoices.OrderBy(sortColumn + (!sortAsc ? " descending" : ""));
+        }
+
+        private async Task<IEnumerable<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate)
+        {
+            var response = new List<DelinquentCustomerAndInvoice>();
+
+            IEnumerable<SapApi.DelinquentCustomerAndInvoice> responseFromSap = await _sapApiService.GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate);
+
+            var businessPartners = responseFromSap
+                .GroupBy(item => item.CardCode)
+                .Select(grp => grp.First())
+                .ToList();
+
+            foreach (var businessPartner in businessPartners)
+            {
+                var unpaidInvoices = responseFromSap.Where(i => i.CardCode == businessPartner.CardCode).Select(i => new UnpaidInvoice
+                {
+                    DocCurrency = i.DocCurrency,
+                    DocDate = i.DocDateAsDateTime,
+                    DocDueDate = i.DocDueDateAsDateTime,
+                    DocNum = i.DocNum,
+                    DocTotal = i.DocTotal,
+                    PaidToDate = i.PaidToDate,
+                    FolioNumberFrom = i.FolioNumberFrom,
+                    Letter = i.Letter,
+                    PointOfIssueCode = i.PointOfIssueCode,
+                }).OrderByDescending(i => i.DocDate);
+
+                var delinquentCustomerAndInvoice = new DelinquentCustomerAndInvoice
+                {
+                    CardCode = businessPartner.CardCode,
+                    CardName = businessPartner.CardName,
+                    Email = businessPartner.Email,
+                    TotalToPay = unpaidInvoices.Sum(i => i.DocTotal - i.PaidToDate),
+                    UnpaidInvoices = unpaidInvoices
+                };
+
+                response.Add(delinquentCustomerAndInvoice);
+            }
+
+            return response;
+        }
+
+        private static IEnumerable<DelinquentCustomerAndInvoice> GetDelinquentCustomersAndInvoicesSorted(IQueryable<DelinquentCustomerAndInvoice> data, string sortColumn, bool sortAsc)
+        {
+            return data.OrderBy(sortColumn + (!sortAsc ? " descending" : ""));
         }
     }
 }
