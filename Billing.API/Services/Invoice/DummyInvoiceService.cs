@@ -38,6 +38,11 @@ namespace Billing.API.Services.Invoice
             return Task.FromResult(bytes);
         }
 
+        public Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc)
+        {
+            return Task.FromResult(new PaginatedResult<DelinquentCustomerAndInvoice> { Items = new List<DelinquentCustomerAndInvoice>(), TotalItems = 0 });
+        }
+
         public async Task<string> TestSapConnection()
         {
             return await Task.FromResult("Successful");

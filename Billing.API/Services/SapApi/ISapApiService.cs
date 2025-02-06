@@ -11,6 +11,8 @@ namespace Billing.API.Services
 
         Task<IList<DocumentItem>> GetInvoices(string documentType, string clientPrefix, int clientId, string sapSystem, int? fileId = null);
 
+        Task<IList<SapApi.DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate);
+
         Task<HttpResponseMessage> TestSapUsConnection();
 
         Task<HttpResponseMessage> TestSapConnection();

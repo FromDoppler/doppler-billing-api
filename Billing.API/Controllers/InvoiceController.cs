@@ -122,6 +122,27 @@ namespace Billing.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("/accounts/{sapSystem}/delinquent/{fromDate}/{toDate}/invoices")]
+        public async Task<IActionResult> GetDelinquentCustomersAndInvoices(
+            [FromRoute] string sapSystem,
+            [FromRoute] string fromDate,
+            [FromRoute] string toDate,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortColumn = "Email",
+            [FromQuery] bool sortAsc = true)
+        {
+            _logger.LogDebug("Getting delinquent customers and invoices");
+
+            ValidateSapSystem(sapSystem);
+
+            var response = await _invoiceService.GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate, page, pageSize, sortColumn, sortAsc);
+
+            return Ok(response);
+        }
+
         private static bool TryGetClientPrefix(string origin, out string clientPrefix)
         {
             switch (origin.ToLowerInvariant())

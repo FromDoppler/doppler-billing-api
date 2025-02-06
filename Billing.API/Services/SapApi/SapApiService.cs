@@ -130,6 +130,33 @@ namespace Billing.API.Services
             return await Login("AR");
         }
 
+        public async Task<IList<SapApi.DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate)
+        {
+            var serviceSetting = SapServiceSettings.GetSettings(_sapConfig, sapSystem);
+            var url = $"{serviceSetting.BaseServerUrl}SQLQueries('DelinquentCustomer')/List?fromDate='{fromDate}'&toDate='{toDate}'";
+
+            var message = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(url),
+                Method = HttpMethod.Get
+            };
+
+
+            var cookies = await StartSession(sapSystem);
+            message.Headers.Add("Cookie", cookies.B1Session);
+            message.Headers.Add("Cookie", cookies.RouteId);
+            message.Headers.Add("Prefer", "odata.maxpagesize=0");
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(message);
+            var result = response.Content.ReadAsStringAsync().Result;
+            var responseFromGetDelinquentCustomersAndInvoices = JsonConvert.DeserializeObject<GetDelinquentCustomersAndInvoicesResponse>(result);
+
+            var delinquentCustomerAndInvoices = responseFromGetDelinquentCustomersAndInvoices.value;
+
+            return delinquentCustomerAndInvoices;
+        }
+
         private async Task<SapLoginCookies> StartSession(string sapSystem)
         {
             try
