@@ -63,37 +63,6 @@ namespace Billing.API.Services.Invoice
                     }
                 },
                 new() {
-                    CardCode = "CD00000000002.0",
-                    CardName = "Test User 2",
-                    Email = "test_user_2@test.com",
-                    TotalToPay = 150,
-                    UnpaidInvoices =  new List<UnpaidInvoice>
-                    {
-                        new() {
-                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
-                            DocDate = new DateTime(2025, 2, 6),
-                            DocDueDate = new DateTime(2025, 2, 16),
-                            DocNum = 2,
-                            DocTotal = 100,
-                            FolioNumberFrom = sapSystem == "US" ? null : 2,
-                            Letter = sapSystem == "US" ? null : "A",
-                            PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
-                        },
-                        new() {
-                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
-                            DocDate = new DateTime(2025, 2, 6),
-                            DocDueDate = new DateTime(2025, 2, 16),
-                            DocNum = 3,
-                            DocTotal = 50,
-                            FolioNumberFrom = sapSystem == "US" ? null : 3,
-                            Letter = sapSystem == "US" ? null : "A",
-                            PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
-                        }
-                    }
-                },
-                new() {
                     CardCode = "CD00000000003.0",
                     CardName = "Test User 3",
                     Email = "test_user_3@test.com",
@@ -145,10 +114,167 @@ namespace Billing.API.Services.Invoice
                             PointOfIssueCode = sapSystem == "US" ? null : "0001"
                         }
                     }
+                },
+                new() {
+                    CardCode = "CD00000000002.0",
+                    CardName = "Test User 2",
+                    Email = "test_user_2@test.com",
+                    TotalToPay = 150,
+                    UnpaidInvoices =  new List<UnpaidInvoice>
+                    {
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 6),
+                            DocDueDate = new DateTime(2025, 2, 16),
+                            DocNum = 2,
+                            DocTotal = 100,
+                            FolioNumberFrom = sapSystem == "US" ? null : 2,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        },
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 6),
+                            DocDueDate = new DateTime(2025, 2, 16),
+                            DocNum = 3,
+                            DocTotal = 50,
+                            FolioNumberFrom = sapSystem == "US" ? null : 3,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        }
+                    }
+                },
+                new() {
+                    CardCode = "CD00000000004.0",
+                    CardName = "Test User",
+                    Email = "test_user_4@test.com",
+                    TotalToPay = 75.25m,
+                    UnpaidInvoices =  new List<UnpaidInvoice>
+                    {
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 9),
+                            DocDueDate = new DateTime(2025, 2, 19),
+                            DocNum = 8,
+                            DocTotal = 75.25m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 8,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        }
+                    }
+                },
+                new() {
+                    CardCode = "CD00000000005.0",
+                    CardName = "Test User",
+                    Email = "test_user_5@test.com",
+                    TotalToPay = 25.75m,
+                    UnpaidInvoices =  new List<UnpaidInvoice>
+                    {
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 1),
+                            DocDueDate = new DateTime(2025, 2, 11),
+                            DocNum = 9,
+                            DocTotal = 25.75m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 9,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        }
+                    }
+                },
+                new() {
+                    CardCode = "CD00000000006.0",
+                    CardName = "Test User",
+                    Email = "test_user_6@test.com",
+                    TotalToPay = 128.75m,
+                    UnpaidInvoices =  new List<UnpaidInvoice>
+                    {
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 1, 1),
+                            DocDueDate = new DateTime(2025, 1, 11),
+                            DocNum = 10,
+                            DocTotal = 25.75m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 10,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        },
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 1),
+                            DocDueDate = new DateTime(2025, 2, 11),
+                            DocNum = 11,
+                            DocTotal = 25.75m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 11,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        },
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 3),
+                            DocDueDate = new DateTime(2025, 2, 13),
+                            DocNum = 12,
+                            DocTotal = 25.75m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 12,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        },
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 4),
+                            DocDueDate = new DateTime(2025, 2, 14),
+                            DocNum = 13,
+                            DocTotal = 25.75m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 13,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        },
+                        new() {
+                            DocCurrency = sapSystem == "US" ? "$" : "ARS",
+                            DocDate = new DateTime(2025, 2, 5),
+                            DocDueDate = new DateTime(2025, 2, 15),
+                            DocNum = 14,
+                            DocTotal = 25.75m,
+                            FolioNumberFrom = sapSystem == "US" ? null : 14,
+                            Letter = sapSystem == "US" ? null : "A",
+                            PaidToDate = 0,
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                        }
+                    }
                 }
             };
 
-            return Task.FromResult(new PaginatedResult<DelinquentCustomerAndInvoice> { Items = dummyData, TotalItems = dummyData.Count });
+            var from = DateTime.Parse(fromDate);
+            var to = DateTime.Parse(toDate);
+
+            var filteredDataDummy = new List<DelinquentCustomerAndInvoice>();
+
+            foreach (var dummy in dummyData)
+            {
+                var data = new DelinquentCustomerAndInvoice()
+                {
+                    CardCode = dummy.CardCode,
+                    CardName = dummy.CardName,
+                    Email = dummy.Email,
+                    TotalToPay = dummy.TotalToPay,
+                    UnpaidInvoices = dummy.UnpaidInvoices.Where(ui => ui.DocDate >= from && ui.DocDate <= to).ToList(),
+                };
+
+                if (data.UnpaidInvoices.Any())
+                {
+                    filteredDataDummy.Add(data);
+                }
+            }
+
+            return Task.FromResult(new PaginatedResult<DelinquentCustomerAndInvoice> { Items = filteredDataDummy, TotalItems = filteredDataDummy.Count });
         }
 
         public async Task<string> TestSapConnection()
