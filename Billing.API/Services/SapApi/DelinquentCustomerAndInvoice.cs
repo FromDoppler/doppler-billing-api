@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Billing.API.Services.SapApi
 {
@@ -7,7 +8,7 @@ namespace Billing.API.Services.SapApi
     {
         public string CardCode {  get; set; }
         public string CardName { get; set; }
-
+        public IList<string> BillingEmails { get; set; }
         [JsonProperty(PropertyName = "DocCur")]
         public string DocCurrency { get; set; }
         public string DocDate { get; set; }
