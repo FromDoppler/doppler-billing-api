@@ -43,9 +43,9 @@ namespace Billing.API.Services.Invoice
             var dummyData = new List<DelinquentCustomerAndInvoice>
             {
                 new() {
-                    CardCode = "CD00000000001.0",
+                    CardCode = "CD00000120465.0",
                     CardName = "Test User",
-                    Email = "test_user@test.com",
+                    Email = "test_error_total_mp_int_1@mailinator.com",
                     TotalToPay = 100,
                     UnpaidInvoices =  new List<UnpaidInvoice>
                     {
@@ -63,9 +63,9 @@ namespace Billing.API.Services.Invoice
                     }
                 },
                 new() {
-                    CardCode = "CD00000000003.0",
+                    CardCode = "CD00000120464.0",
                     CardName = "Test User 3",
-                    Email = "test_user_3@test.com",
+                    Email = "test_billing_email_sap_int_1@mailinator.com",
                     TotalToPay = 1555.0m,
                     UnpaidInvoices =  new List<UnpaidInvoice>
                     {
@@ -116,9 +116,9 @@ namespace Billing.API.Services.Invoice
                     }
                 },
                 new() {
-                    CardCode = "CD00000000002.0",
+                    CardCode = "CD00000120463.0",
                     CardName = "Test User 2",
-                    Email = "test_user_2@test.com",
+                    Email = "test_onsite_int_1@mailinator.com",
                     TotalToPay = 150,
                     UnpaidInvoices =  new List<UnpaidInvoice>
                     {
@@ -147,9 +147,9 @@ namespace Billing.API.Services.Invoice
                     }
                 },
                 new() {
-                    CardCode = "CD00000000004.0",
+                    CardCode = "CD00000120462.0",
                     CardName = "Test User",
-                    Email = "test_user_4@test.com",
+                    Email = "test_buy_conversation_no_activated_int_1@mailinator.com",
                     TotalToPay = 75.25m,
                     UnpaidInvoices =  new List<UnpaidInvoice>
                     {
@@ -167,9 +167,9 @@ namespace Billing.API.Services.Invoice
                     }
                 },
                 new() {
-                    CardCode = "CD00000000005.0",
+                    CardCode = "CD00000120461.0",
                     CardName = "Test User",
-                    Email = "test_user_5@test.com",
+                    Email = "test_bin_validation_int_1@mailinator.com",
                     TotalToPay = 25.75m,
                     UnpaidInvoices =  new List<UnpaidInvoice>
                     {
@@ -187,9 +187,9 @@ namespace Billing.API.Services.Invoice
                     }
                 },
                 new() {
-                    CardCode = "CD00000000006.0",
+                    CardCode = "CD00000120460.0",
                     CardName = "Test User",
-                    Email = "test_user_6@test.com",
+                    Email = "hvarela+register-event4@makingsense.com",
                     TotalToPay = 128.75m,
                     UnpaidInvoices =  new List<UnpaidInvoice>
                     {
@@ -252,8 +252,17 @@ namespace Billing.API.Services.Invoice
                 }
             };
 
-            var from = DateTime.Parse(fromDate);
-            var to = DateTime.Parse(toDate);
+            var year = int.Parse(fromDate.Substring(0, 4));
+            var month = int.Parse(fromDate.Substring(4, 2));
+            var day = int.Parse(fromDate.Substring(6, 2));
+
+            var from = new DateTime(year, month, day);
+
+            year = int.Parse(toDate.Substring(0, 4));
+            month = int.Parse(toDate.Substring(4, 2));
+            day = int.Parse(toDate.Substring(6, 2));
+
+            var to = new DateTime(year, month, day);
 
             var filteredDataDummy = new List<DelinquentCustomerAndInvoice>();
 
