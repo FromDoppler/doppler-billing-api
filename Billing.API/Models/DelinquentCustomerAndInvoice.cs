@@ -8,6 +8,7 @@ namespace Billing.API.Models
         public string CardCode {  get; set; }
         public string CardName { get; set; }
         public string Email { get; set; }
+        public IList<string> BilllingEmails { get; set; }
         public decimal TotalToPay { get; set; }
         public IEnumerable<UnpaidInvoice> UnpaidInvoices { get; set; }
     }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Billing.API.Models;
+using System.Reflection.PortableExecutable;
 
 namespace Billing.API.Services
 {
@@ -141,6 +142,29 @@ namespace Billing.API.Services
                 Method = HttpMethod.Get
             };
 
+            var cookies = await StartSession(sapSystem);
+            message.Headers.Add("Cookie", cookies.B1Session);
+            message.Headers.Add("Cookie", cookies.RouteId);
+            message.Headers.Add("Prefer", $"odata.maxpagesize={0}");
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(message);
+            var result = response.Content.ReadAsStringAsync().Result;
+            var responseFromGetDelinquentCustomersAndInvoices = JsonConvert.DeserializeObject<GetDelinquentCustomersAndInvoicesResponse>(result);
+            var delinquentCustomerAndInvoices = responseFromGetDelinquentCustomersAndInvoices.value;
+
+            return delinquentCustomerAndInvoices;
+        }
+
+        private async Task<GetContactEmployeesResponse> GetContactExployeesByCardCode(string cardCode, string sapSystem)
+        {
+            var serviceSetting = SapServiceSettings.GetSettings(_sapConfig, sapSystem);
+            var url = $"{serviceSetting.BaseServerUrl}BusinessPartners('{cardCode}')?$select=ContactEmployees";
+            var message = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(url),
+                Method = HttpMethod.Get
+            };
 
             var cookies = await StartSession(sapSystem);
             message.Headers.Add("Cookie", cookies.B1Session);
@@ -149,12 +173,11 @@ namespace Billing.API.Services
 
             var client = _httpClientFactory.CreateClient();
             var response = await client.SendAsync(message);
+
             var result = response.Content.ReadAsStringAsync().Result;
-            var responseFromGetDelinquentCustomersAndInvoices = JsonConvert.DeserializeObject<GetDelinquentCustomersAndInvoicesResponse>(result);
+            var contactEmployees = JsonConvert.DeserializeObject<GetContactEmployeesResponse>(result);
 
-            var delinquentCustomerAndInvoices = responseFromGetDelinquentCustomersAndInvoices.value;
-
-            return delinquentCustomerAndInvoices;
+            return contactEmployees;
         }
 
         private async Task<SapLoginCookies> StartSession(string sapSystem)

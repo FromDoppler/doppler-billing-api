@@ -181,6 +181,25 @@ namespace Billing.API.Services.Invoice
                 };
 
                 response.Add(delinquentCustomerAndInvoice);
+
+                var billingEmails = businessPartner.BillingEmails == null ? new List<string>() : businessPartner.BillingEmails;
+                foreach (var billingEmail in billingEmails)
+                {
+                    if (billingEmail != businessPartner.Email)
+                    {
+                        delinquentCustomerAndInvoice = new DelinquentCustomerAndInvoice
+                        {
+                            CardCode = businessPartner.CardCode,
+                            CardName = businessPartner.CardName,
+                            Email = billingEmail,
+                            BilllingEmails = businessPartner.BillingEmails,
+                            TotalToPay = unpaidInvoices.Sum(i => i.DocTotal - i.PaidToDate),
+                            UnpaidInvoices = unpaidInvoices
+                        };
+
+                        response.Add(delinquentCustomerAndInvoice);
+                    }
+                }
             }
 
             return response;
