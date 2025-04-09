@@ -182,10 +182,21 @@ namespace Billing.API.Services.Invoice
 
                 response.Add(delinquentCustomerAndInvoice);
 
-                var billingEmails = businessPartner.BillingEmails == null ? new List<string>() : businessPartner.BillingEmails;
+
+                var billingEmails = new List<string>();
+
+                if (businessPartner.CardCode.StartsWith("CR") || businessPartner.CardCode.StartsWith("S") ||
+                    businessPartner.CardCode.StartsWith("CS") || businessPartner.CardCode.StartsWith("SB") ||
+                    businessPartner.CardCode.StartsWith("SC") || businessPartner.CardCode.StartsWith("SESB"))
+                {
+                    var contactEmploeesResponse = await _sapApiService.GetContactExployeesByCardCode(businessPartner.CardCode, sapSystem);
+                    var billingContacts = contactEmploeesResponse.ContactEmployees.Where(ce => ce.EmailGroupCode == "Facturacion" || ce.EmailGroupCode == "Billing");
+                    billingEmails = billingContacts.Select(bc => bc.Email).ToList();
+                }
+               
                 foreach (var billingEmail in billingEmails)
                 {
-                    if (billingEmail != businessPartner.Email)
+                    if (!string.IsNullOrEmpty(billingEmail) && billingEmail != businessPartner.Email)
                     {
                         delinquentCustomerAndInvoice = new DelinquentCustomerAndInvoice
                         {
