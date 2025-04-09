@@ -1,4 +1,5 @@
 using Billing.API.Models;
+using Billing.API.Services.SapApi;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace Billing.API.Services
 
         Task<IList<SapApi.DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate);
 
+        Task<GetContactEmployeesResponse> GetContactExployeesByCardCode(string cardCode, string sapSystem);
+        
         Task<HttpResponseMessage> TestSapUsConnection();
 
         Task<HttpResponseMessage> TestSapConnection();

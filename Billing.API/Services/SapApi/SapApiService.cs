@@ -156,7 +156,7 @@ namespace Billing.API.Services
             return delinquentCustomerAndInvoices;
         }
 
-        private async Task<GetContactEmployeesResponse> GetContactExployeesByCardCode(string cardCode, string sapSystem)
+        public async Task<GetContactEmployeesResponse> GetContactExployeesByCardCode(string cardCode, string sapSystem)
         {
             var serviceSetting = SapServiceSettings.GetSettings(_sapConfig, sapSystem);
             var url = $"{serviceSetting.BaseServerUrl}BusinessPartners('{cardCode}')?$select=ContactEmployees";
