@@ -15,7 +15,9 @@ namespace Billing.API.Services
         Task<IList<SapApi.DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate);
 
         Task<GetContactEmployeesResponse> GetContactExployeesByCardCode(string cardCode, string sapSystem);
-        
+
+        Task<GetPaymentTermsTypeResponse> GetPaymentTermsTypeById(int id, string sapSystem);
+
         Task<HttpResponseMessage> TestSapUsConnection();
 
         Task<HttpResponseMessage> TestSapConnection();

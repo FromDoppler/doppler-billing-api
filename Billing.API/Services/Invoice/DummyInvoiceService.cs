@@ -58,7 +58,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 1,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 100,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         }
                     }
                 },
@@ -78,7 +85,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 4,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 100,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -89,7 +103,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 5,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 500.55m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -100,7 +121,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 6,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 599,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -111,7 +139,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 7,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 300.45m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         }
                     }
                 },
@@ -131,7 +166,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 2,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 100,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -142,7 +184,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 3,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 50,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         }
                     }
                 },
@@ -162,7 +211,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 8,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 75.25m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         }
                     }
                 },
@@ -182,7 +238,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 9,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 25.75m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         }
                     }
                 },
@@ -202,7 +265,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 10,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 25.75m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -213,7 +283,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 11,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 25.75m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -224,7 +301,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 12,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 25.75m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -235,7 +319,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 13,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 25.75m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         },
                         new() {
                             DocCurrency = sapSystem == "US" ? "$" : "ARS",
@@ -246,7 +337,14 @@ namespace Billing.API.Services.Invoice
                             FolioNumberFrom = sapSystem == "US" ? null : 14,
                             Letter = sapSystem == "US" ? null : "A",
                             PaidToDate = 0,
-                            PointOfIssueCode = sapSystem == "US" ? null : "0001"
+                            PointOfIssueCode = sapSystem == "US" ? null : "0001",
+                            DocTotalUsd = 25.75m,
+                            PaidToDateUsd = 0,
+                            PaymentTerms = new PaymentTerms
+                            {
+                                NumberOfAdditionalDays = 0,
+                                Name = "Test"
+                            }
                         }
                     }
                 }

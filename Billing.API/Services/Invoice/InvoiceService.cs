@@ -158,18 +158,37 @@ namespace Billing.API.Services.Invoice
 
             foreach (var businessPartner in businessPartners)
             {
-                var unpaidInvoices = responseFromSap.Where(i => i.CardCode == businessPartner.CardCode).Select(i => new UnpaidInvoice
+                var invoices = responseFromSap.Where(i => i.CardCode == businessPartner.CardCode);
+                var unpaidInvoices = new List<UnpaidInvoice>();
+
+                foreach (var invoice in invoices)
                 {
-                    DocCurrency = i.DocCurrency,
-                    DocDate = i.DocDateAsDateTime,
-                    DocDueDate = i.DocDueDateAsDateTime,
-                    DocNum = i.DocNum,
-                    DocTotal = i.DocTotal,
-                    PaidToDate = i.PaidToDate,
-                    FolioNumberFrom = i.FolioNumberFrom,
-                    Letter = i.Letter,
-                    PointOfIssueCode = i.PointOfIssueCode,
-                }).OrderByDescending(i => i.DocDate);
+                    var paymentTermsType = await _sapApiService.GetPaymentTermsTypeById(invoice.PaymentTermsType, sapSystem);
+                    var additionalDays = invoice.PaymentTermsExtraDays;
+
+                    if (invoice.PaymentTermsExtraMonth > 0)
+                    {
+                        additionalDays = invoice.PaymentTermsExtraMonth * 30;
+                    }
+
+                    var unpaidInvoice = new UnpaidInvoice
+                    {
+                        DocCurrency = invoice.DocCurrency,
+                        DocDate = invoice.DocDateAsDateTime,
+                        DocDueDate = invoice.DocDueDateAsDateTime,
+                        DocNum = invoice.DocNum,
+                        DocTotal = invoice.DocTotal,
+                        PaidToDate = invoice.PaidToDate,
+                        DocTotalUsd = invoice.DocTotalUsd,
+                        PaidToDateUsd = invoice.PaidToDateUsd,
+                        FolioNumberFrom = invoice.FolioNumberFrom,
+                        Letter = invoice.Letter,
+                        PointOfIssueCode = invoice.PointOfIssueCode,
+                        PaymentTerms = new PaymentTerms { Name = paymentTermsType.Name, NumberOfAdditionalDays = additionalDays }
+                    };
+
+                    unpaidInvoices.Add(unpaidInvoice);
+                }
 
                 var delinquentCustomerAndInvoice = new DelinquentCustomerAndInvoice
                 {
@@ -177,11 +196,10 @@ namespace Billing.API.Services.Invoice
                     CardName = businessPartner.CardName,
                     Email = businessPartner.Email,
                     TotalToPay = unpaidInvoices.Sum(i => i.DocTotal - i.PaidToDate),
-                    UnpaidInvoices = unpaidInvoices
+                    UnpaidInvoices = unpaidInvoices.OrderByDescending(i => i.DocDate)
                 };
 
                 response.Add(delinquentCustomerAndInvoice);
-
 
                 var billingEmails = new List<string>();
 
