@@ -180,6 +180,30 @@ namespace Billing.API.Services
             return contactEmployees;
         }
 
+        public async Task<GetPaymentTermsTypeResponse> GetPaymentTermsTypeById(int id, string sapSystem)
+        {
+            var serviceSetting = SapServiceSettings.GetSettings(_sapConfig, sapSystem);
+            var url = $"{serviceSetting.BaseServerUrl}PaymentTermsTypes({id})";
+            var message = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(url),
+                Method = HttpMethod.Get
+            };
+
+            var cookies = await StartSession(sapSystem);
+            message.Headers.Add("Cookie", cookies.B1Session);
+            message.Headers.Add("Cookie", cookies.RouteId);
+            message.Headers.Add("Prefer", "odata.maxpagesize=0");
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(message);
+
+            var result = response.Content.ReadAsStringAsync().Result;
+            var paymentTermsType = JsonConvert.DeserializeObject<GetPaymentTermsTypeResponse>(result);
+
+            return paymentTermsType;
+        }
+
         private async Task<SapLoginCookies> StartSession(string sapSystem)
         {
             try

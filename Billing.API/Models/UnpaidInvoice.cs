@@ -14,5 +14,8 @@ namespace Billing.API.Models
         public string Letter { get; set; }
         public string PointOfIssueCode { get; set; }
         public decimal PaidToDate { get; set; }
+        public PaymentTerms PaymentTerms { get; set; }
+        public decimal DocTotalUsd { get; set; }
+        public decimal PaidToDateUsd { get; set; }
     }
 }

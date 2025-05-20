@@ -27,6 +27,15 @@ namespace Billing.API.Services.SapApi
         public string PointOfIssueCode { get; set; }
         public decimal PaidToDate { get; set; }
 
+        [JsonProperty(PropertyName = "GroupNum")]
+        public int PaymentTermsType { get; set; }
+
+        [JsonProperty(PropertyName = "ExtraDays")]
+        public int PaymentTermsExtraDays { get; set; }
+
+        [JsonProperty(PropertyName = "ExtraMonth")]
+        public int PaymentTermsExtraMonth { get; set; }
+
         public DateTime DocDateAsDateTime
         {
             get
@@ -41,5 +50,10 @@ namespace Billing.API.Services.SapApi
                 return new DateTime(int.Parse(DocDueDate.Substring(0, 4)), int.Parse(DocDueDate.Substring(4, 2)), int.Parse(DocDueDate.Substring(6, 2)));
             }
         }
+
+        [JsonProperty(PropertyName = "DocTotalSy")]
+        public decimal DocTotalUsd { get; set; }
+        [JsonProperty(PropertyName = "PaidSys")]
+        public decimal PaidToDateUsd { get; set; }
     }
 }
