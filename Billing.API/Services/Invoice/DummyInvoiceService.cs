@@ -64,7 +64,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         }
                     }
@@ -91,7 +91,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -109,7 +109,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -127,7 +127,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -145,7 +145,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         }
                     }
@@ -172,7 +172,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -190,7 +190,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         }
                     }
@@ -217,7 +217,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         }
                     }
@@ -244,7 +244,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         }
                     }
@@ -271,7 +271,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -289,7 +289,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -307,7 +307,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -325,7 +325,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         },
                         new() {
@@ -343,7 +343,7 @@ namespace Billing.API.Services.Invoice
                             PaymentTerms = new PaymentTerms
                             {
                                 NumberOfAdditionalDays = 0,
-                                Name = "Test"
+                                Name = "Cash Basic"
                             }
                         }
                     }
