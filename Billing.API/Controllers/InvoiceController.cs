@@ -132,13 +132,14 @@ namespace Billing.API.Controllers
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10,
             [FromQuery] string sortColumn = "Email",
-            [FromQuery] bool sortAsc = true)
+            [FromQuery] bool sortAsc = true,
+            [FromQuery] bool includePaymentTerms = false)
         {
             _logger.LogDebug("Getting delinquent customers and invoices");
 
             ValidateSapSystem(sapSystem);
 
-            var response = await _invoiceService.GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate, page, pageSize, sortColumn, sortAsc);
+            var response = await _invoiceService.GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate, page, pageSize, sortColumn, sortAsc, includePaymentTerms);
 
             return Ok(response);
         }

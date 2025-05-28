@@ -38,7 +38,7 @@ namespace Billing.API.Services.Invoice
             return Task.FromResult(bytes);
         }
 
-        public Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc)
+        public Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc, bool includePaymentTerms)
         {
             var dummyData = new List<DelinquentCustomerAndInvoice>
             {
