@@ -150,6 +150,14 @@ namespace Billing.API.Services.Invoice
         {
             var response = new List<DelinquentCustomerAndInvoice>();
 
+            var paymentTermsTypes = new List<SapApi.GetPaymentTermsTypeByIdResponse>();
+
+            if (includePaymentTerms)
+            {
+                var getPaymentTermsTypesResponse = await _sapApiService.GetPaymentTermsTypes(sapSystem);
+                paymentTermsTypes = getPaymentTermsTypesResponse.value;
+            }
+
             IEnumerable<SapApi.DelinquentCustomerAndInvoice> responseFromSap = await _sapApiService.GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate);
 
             var businessPartners = responseFromSap
@@ -169,7 +177,7 @@ namespace Billing.API.Services.Invoice
 
                     if (includePaymentTerms)
                     {
-                        var paymentTermsType = await _sapApiService.GetPaymentTermsTypeById(invoice.PaymentTermsType, sapSystem);
+                        var paymentTermsType = paymentTermsTypes.FirstOrDefault(ptt => ptt.Id == invoice.PaymentTermsType);
                         paymentTermsTypeName = paymentTermsType.Name;
                         additionalDays = invoice.PaymentTermsExtraDays;
                         if (invoice.PaymentTermsExtraMonth > 0)
