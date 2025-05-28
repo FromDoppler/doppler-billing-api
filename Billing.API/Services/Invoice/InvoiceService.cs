@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Billing.API.Services.Invoice
 {
@@ -80,9 +81,9 @@ namespace Billing.API.Services.Invoice
             return await response.Content.ReadAsByteArrayAsync();
         }
 
-        public async Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc)
+        public async Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc, bool includePaymentTerms)
         {
-            var response = await GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate);
+            var response = await GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate, includePaymentTerms);
 
             var responseSorted = GetDelinquentCustomersAndInvoicesSorted(response.AsQueryable(), sortColumn, sortAsc).ToList();
             var paginatedData = responseSorted;
@@ -145,7 +146,7 @@ namespace Billing.API.Services.Invoice
             return invoices.OrderBy(sortColumn + (!sortAsc ? " descending" : ""));
         }
 
-        private async Task<IEnumerable<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate)
+        private async Task<IEnumerable<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, bool includePaymentTerms)
         {
             var response = new List<DelinquentCustomerAndInvoice>();
 
@@ -163,12 +164,18 @@ namespace Billing.API.Services.Invoice
 
                 foreach (var invoice in invoices)
                 {
-                    var paymentTermsType = await _sapApiService.GetPaymentTermsTypeById(invoice.PaymentTermsType, sapSystem);
-                    var additionalDays = invoice.PaymentTermsExtraDays;
+                    var paymentTermsTypeName = string.Empty;
+                    var additionalDays = 0;
 
-                    if (invoice.PaymentTermsExtraMonth > 0)
+                    if (includePaymentTerms)
                     {
-                        additionalDays = invoice.PaymentTermsExtraMonth * 30;
+                        var paymentTermsType = await _sapApiService.GetPaymentTermsTypeById(invoice.PaymentTermsType, sapSystem);
+                        paymentTermsTypeName = paymentTermsType.Name;
+                        additionalDays = invoice.PaymentTermsExtraDays;
+                        if (invoice.PaymentTermsExtraMonth > 0)
+                        {
+                            additionalDays = invoice.PaymentTermsExtraMonth * 30;
+                        }
                     }
 
                     var unpaidInvoice = new UnpaidInvoice
@@ -184,7 +191,7 @@ namespace Billing.API.Services.Invoice
                         FolioNumberFrom = invoice.FolioNumberFrom,
                         Letter = invoice.Letter,
                         PointOfIssueCode = invoice.PointOfIssueCode,
-                        PaymentTerms = new PaymentTerms { Name = paymentTermsType.Name, NumberOfAdditionalDays = additionalDays }
+                        PaymentTerms = new PaymentTerms { Name = paymentTermsTypeName, NumberOfAdditionalDays = additionalDays }
                     };
 
                     unpaidInvoices.Add(unpaidInvoice);
