@@ -16,7 +16,9 @@ namespace Billing.API.Services
 
         Task<GetContactEmployeesResponse> GetContactExployeesByCardCode(string cardCode, string sapSystem);
 
-        Task<GetPaymentTermsTypeResponse> GetPaymentTermsTypeById(int id, string sapSystem);
+        Task<GetPaymentTermsTypeByIdResponse> GetPaymentTermsTypeById(int id, string sapSystem);
+
+        Task<GetPaymentTermsTypesResponse> GetPaymentTermsTypes(string sapSystem);
 
         Task<HttpResponseMessage> TestSapUsConnection();
 
