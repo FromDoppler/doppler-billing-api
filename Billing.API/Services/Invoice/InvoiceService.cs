@@ -191,7 +191,7 @@ namespace Billing.API.Services.Invoice
                         DocCurrency = invoice.DocCurrency,
                         DocDate = invoice.DocDateAsDateTime,
                         DocDueDate = invoice.DocDueDateAsDateTime,
-                        DocNum = invoice.DocNum,
+                        DocNum = sapSystem == "US" ? invoice.DocNum : invoice.FolioNumberFrom ?? 0,
                         DocTotal = invoice.DocTotal,
                         PaidToDate = invoice.PaidToDate,
                         DocTotalUsd = invoice.DocTotalUsd,
