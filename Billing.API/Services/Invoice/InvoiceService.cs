@@ -81,9 +81,9 @@ namespace Billing.API.Services.Invoice
             return await response.Content.ReadAsByteArrayAsync();
         }
 
-        public async Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc, bool includePaymentTerms)
+        public async Task<PaginatedResult<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, int page, int pageSize, string sortColumn, bool sortAsc, bool includePaymentTerms, bool includeBillingEmails)
         {
-            var response = await GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate, includePaymentTerms);
+            var response = await GetDelinquentCustomersAndInvoices(sapSystem, fromDate, toDate, includePaymentTerms, includeBillingEmails);
 
             var responseSorted = GetDelinquentCustomersAndInvoicesSorted(response.AsQueryable(), sortColumn, sortAsc).ToList();
             var paginatedData = responseSorted;
@@ -146,7 +146,7 @@ namespace Billing.API.Services.Invoice
             return invoices.OrderBy(sortColumn + (!sortAsc ? " descending" : ""));
         }
 
-        private async Task<IEnumerable<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, bool includePaymentTerms)
+        private async Task<IEnumerable<DelinquentCustomerAndInvoice>> GetDelinquentCustomersAndInvoices(string sapSystem, string fromDate, string toDate, bool includePaymentTerms, bool includeBillingEmails)
         {
             var response = new List<DelinquentCustomerAndInvoice>();
 
@@ -218,9 +218,10 @@ namespace Billing.API.Services.Invoice
 
                 var billingEmails = new List<string>();
 
-                if (businessPartner.CardCode.StartsWith("CR") || businessPartner.CardCode.StartsWith("S") ||
+                if ( includeBillingEmails &&
+                    (businessPartner.CardCode.StartsWith("CR") || businessPartner.CardCode.StartsWith("S") ||
                     businessPartner.CardCode.StartsWith("CS") || businessPartner.CardCode.StartsWith("SB") ||
-                    businessPartner.CardCode.StartsWith("SC") || businessPartner.CardCode.StartsWith("SESB"))
+                    businessPartner.CardCode.StartsWith("SC") || businessPartner.CardCode.StartsWith("SESB")))
                 {
                     var contactEmploeesResponse = await _sapApiService.GetContactExployeesByCardCode(businessPartner.CardCode, sapSystem);
                     var billingContacts = contactEmploeesResponse.ContactEmployees.Where(ce => ce.EmailGroupCode == "Facturacion" || ce.EmailGroupCode == "Billing");
